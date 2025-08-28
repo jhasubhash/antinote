@@ -8,7 +8,7 @@ export default async function Command(props: LaunchProps<{ arguments: { content:
   if (!isInstalled) {
     return;
   }
-  
+
   let content = props.arguments.content;
   if (!content) {
     try {
