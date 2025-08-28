@@ -8,11 +8,15 @@ export default async function Command(props: LaunchProps<{ arguments: { content:
   if (!isInstalled) {
     return;
   }
-
+  
   let content = props.arguments.content;
-
-  if (!content || content.length === 0) {
-    content = await getSelectedText();
+  if (!content) {
+    try {
+      content = await getSelectedText();
+    } catch (error) {
+      // ignore
+      content = "";
+    }
   }
 
   // Encode the content for URL
@@ -24,7 +28,7 @@ export default async function Command(props: LaunchProps<{ arguments: { content:
         activate
         delay 0.3
         open location "antinote://x-callback-url/createNote?content=${encodedContent}"
-      end tell`
+      end tell`,
     );
 
     await closeMainWindow({ clearRootSearch: true });
